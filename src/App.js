@@ -5,6 +5,7 @@ import { ThemeSwitcher } from './components/ThemeSwitcher';
 import { MemoExample } from './components/MemoExample';
 import ErrorBoundaries from './components/ErrorBoundaries';
 import CodeSplitter from './components/CodeSplitter';
+import UseTransition from './components/UseTransition';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <MemoExample />
       <ErrorBoundaries />
       <CodeSplitter />
+      <UseTransition />
     </ThemeProvider>
   );
 }

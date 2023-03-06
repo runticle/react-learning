@@ -35,3 +35,9 @@ Or we can use `React.lazy`. A good example is for our Routes. It has been said t
 Using lazy should use default exports. If you need to, just make another file that exports the component you need by default. You can also achieve it with a `.then(module => ({ default: module.YourModule }))`. 
 
 We should use the `Suspense` component, to render a fallback (often "Loading...") component while we wait for the dynamic import.
+
+## UseTransition
+
+This is a hook (concept is also available in class componenents) which essentially tells React to set the priority of some piece of code to low. It will then basically do everything else until it has nothing do and then the low priority code will run. You wrap a low priority function in `startTransition(() => ...)`. Very simple. You also get `isPending` from the hook `const [isPending, startTransition] = useTransition()`. This can be used to render a Loading... while the user waits.
+
+Don't overuse it. It tends to make your component render more times as you render once the high priority code runs and then again once the transition finishes. 
