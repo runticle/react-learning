@@ -41,3 +41,29 @@ We should use the `Suspense` component, to render a fallback (often "Loading..."
 This is a hook (concept is also available in class componenents) which essentially tells React to set the priority of some piece of code to low. It will then basically do everything else until it has nothing do and then the low priority code will run. You wrap a low priority function in `startTransition(() => ...)`. Very simple. You also get `isPending` from the hook `const [isPending, startTransition] = useTransition()`. This can be used to render a Loading... while the user waits.
 
 Don't overuse it. It tends to make your component render more times as you render once the high priority code runs and then again once the transition finishes. 
+
+
+
+## Virtual DOM
+
+The Virtual DOM is a plain javascript object. It represents the real DOM rendered to the browser window. 
+
+When something changes to a react component, state or props or whatever, we need to update the DOM. In oldschool web dev, the entire DOM might be rerendered, whereas in React, we tell the real DOM only to rerender what needs to be. This is where a lot of the performance benefit of React is apparent, compared to old web dev.
+
+If you console.log the output of `React.createElement(*some component with children*)`, you will see a nested object of representations of html elements. You can see then how we can access `this.props.children` in our components. Nifty. 
+
+
+
+## HOC
+
+A HOC is more of a pattern than a tangible thing lol. It is generally "a function that takes a component and returns a new component". An example is `React.memo`. Memo takes a component, and returns a component with some more logic attached to it. You can use Memo all over the place, thus sharing this added logic to many components. So it is a useful concept, in that respect.
+
+
+## React's Data Flow
+
+...is unidirectional. This means it flows in one direction. Obviously. Data is generally passed down the component tree, using the props. This guides the programmer to keep things simple, and makes debugging easier. Generally, we use state management systems like Redux and Context, instead of just passing props like we used to pass parcels. We just want to keep things simple, uniform, readable, maintainable, and performant.
+
+
+
+
+
