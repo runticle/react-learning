@@ -2,8 +2,8 @@ import React, { Suspense, useState } from 'react'
 
 
 // lazy takes a function than returns a THENABLE promise. importing is such a thing.
-const LazyBoy = React.lazy(() => import('./LazyBoy'))
-
+// Sleep just to demonstrate loading in suspense
+const LazyBoy = React.lazy(() => sleep(1000).then(() => import('./LazyBoy')))
 
 export default function CodeSplitter() {
     const [showLazy, setShowLazy] = useState(false)
@@ -29,4 +29,10 @@ function Loading() {
             Loading...
         </p>
     )
+}
+
+function sleep(time) {
+    return new Promise(resolve => {
+        setTimeout(resolve, time)
+    })
 }

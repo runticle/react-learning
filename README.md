@@ -32,4 +32,6 @@ We can use syntax like dynamic imports which webpack will automatically split. `
 
 Or we can use `React.lazy`. A good example is for our Routes. It has been said that users are used to having to wait for a new page to load. Obviously with React using SinglePageApp tings, these 'page loads' can be pretty instant. But if we wrap our different routes in the lazy HOC, all the code from those routes and beyond will be bundled separately, and loaded when the user first loads the page. After the initial load, the bundle is already loaded and subsequent loads will be rapid. 
 
+Using lazy should use default exports. If you need to, just make another file that exports the component you need by default. You can also achieve it with a `.then(module => ({ default: module.YourModule }))`. 
+
 We should use the `Suspense` component, to render a fallback (often "Loading...") component while we wait for the dynamic import.
