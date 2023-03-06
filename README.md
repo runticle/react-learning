@@ -1,70 +1,35 @@
-# Getting Started with Create React App
+# React Practice
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Just a few examples of the Reacty things I've learnt since returning to the `codelyf`
 
-## Available Scripts
+## Context
 
-In the project directory, you can run:
+React Context is useful to grant access to child components without having to pass props down in some ugly chain. 
+A ThemeSwitcher is a good example. We can use React context to create a provider that wraps around our App component.
+With a little hocus pocus we can make a ThemeSwitcher component (the provider) and a customer useTheme hook. This useTheme hook returns `[darkTheme, toggleTheme]` and any Child component of the provider can import it and use it.
 
-### `npm start`
+## Memo
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+React.memo can be used to greatly improve performance. We use React.memo to wrap a Component we want to Memoize. This component will only be rerendered if it needs to, instead of every time it's parent rerenders for example. You can avoid doing this by wrapping the expensive component in a "provider" and using `{children}` syntax. 
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The useMemo hook is useful for wrapping a function that we only need to fire once, or whenever a certain dependency changes.
 
-### `npm test`
+Important to note that if possible, probably try to avoid using memo. It uses temporary caching and is _not_ guaranteed to work every time, if we use it too much.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Error Boundaries
 
-### `npm run build`
+A nice way to handle errors in the application. Make a class component to wrap around parts of code you want to protect. We use `componentDidCatch` for logging errors and maybe sending them to a bug service. We use `static getDerivedStateFromError` to render a fallback UI when we catch an error. 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+We need to be careful where we put our ErrorBoundary  as it will not render the any of the children if it encounters an error, which could lead to use hiding a lot of useful working components.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Any error from any of it's child components will bubble up to the Boundary. An error _inside_ the boundary will not be caught, and will instead bubble up to the next boundary above in the DOM. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## CodeSplitting
 
-### `npm run eject`
+A useful mechanic for saving on performance. Apps are often bundled into a single file by tools like webpack. Webpack would follow the imports and merge all code into one file. Apps can be huge, and this can be silly. So we can split bundles. We can define boundaries where code should be 'split' into more bundles. 
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+We can use syntax like dynamic imports which webpack will automatically split. `import('./algebra').then(algerbra => { // do some algebra })` 
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Or we can use `React.lazy`. A good example is for our Routes. It has been said that users are used to having to wait for a new page to load. Obviously with React using SinglePageApp tings, these 'page loads' can be pretty instant. But if we wrap our different routes in the lazy HOC, all the code from those routes and beyond will be bundled separately, and loaded when the user first loads the page. After the initial load, the bundle is already loaded and subsequent loads will be rapid. 
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+We should use the `Suspense` component, to render a fallback (often "Loading...") component while we wait for the dynamic import.
