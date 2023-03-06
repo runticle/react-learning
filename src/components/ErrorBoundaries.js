@@ -11,6 +11,9 @@ import React from 'react'
 export default function ErrorBoundaries() {
     return (
         <>
+            <h1>
+                Error Boundary
+            </h1>
             <ErrorBoundary>
                 <Errorneous name="David" />
             </ErrorBoundary>

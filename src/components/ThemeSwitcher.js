@@ -13,6 +13,9 @@ export const ThemeSwitcher = () => {
     }
     return (
         <div>
+            <h1>
+                Context
+            </h1>
             <p style={pstyle}>
                 Hello world
             </p>

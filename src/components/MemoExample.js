@@ -22,6 +22,9 @@ export const MemoExample = () => {
 
     return (
         <div>
+            <h1>
+                Memo
+            </h1>
             <input onChange={(e) => setValue(e.target.value)} value={value} />
             <p>{count}</p>
             <ExpensiveComponent />
